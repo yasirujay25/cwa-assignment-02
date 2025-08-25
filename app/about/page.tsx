@@ -1,22 +1,24 @@
 "use client";
 
+import React from "react";
+
 export default function AboutPage() {
-  const containerStyle = {
+  const containerStyle: React.CSSProperties = {
     padding: "20px",
-    textAlign: "center"
+    textAlign: "center",
   };
 
-  const titleStyle = {
+  const titleStyle: React.CSSProperties = {
     fontSize: "28px",
     fontWeight: "bold",
-    marginBottom: "15px"
+    marginBottom: "15px",
   };
 
-  const videoStyle = {
+  const videoStyle: React.CSSProperties = {
     width: "80%",
     height: "400px",
     marginTop: "20px",
-    border: "2px solid #ccc"
+    border: "2px solid #ccc",
   };
 
   return (
@@ -26,8 +28,8 @@ export default function AboutPage() {
       <p>Student Number: 123456</p>
       <p>Video demo: How to use this website</p>
       <video style={videoStyle} controls>
-  <source src="/use.mp4" type="video/mp4" />
-</video>
+        <source src="/use.mp4" type="video/mp4" />
+      </video>
     </div>
   );
 }

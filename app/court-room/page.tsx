@@ -1,15 +1,15 @@
 "use client";
 
 export default function CourtRoom() {
-  const containerStyle = {
+  const containerStyle: React.CSSProperties = {
     padding: "20px",
-    textAlign: "center"
+    textAlign: "center",
   };
 
-  const titleStyle = {
+  const titleStyle: React.CSSProperties = {
     fontSize: "28px",
     fontWeight: "bold",
-    marginBottom: "15px"
+    marginBottom: "15px",
   };
 
   return (

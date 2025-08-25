@@ -1,10 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
-import Link from 'next/link';
-import './globals.css';
+import Link from "next/link";
+import "./globals.css";
 
+import type { PropsWithChildren } from "react";
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: PropsWithChildren<{}>) {
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
@@ -18,68 +19,100 @@ export default function RootLayout({ children }) {
     localStorage.setItem("theme", newTheme);
   };
 
-  const headerStyle = {
+  const headerStyle: React.CSSProperties = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     padding: "10px",
     backgroundColor: theme === "light" ? "#f0f0f0" : "#333",
-    color: theme === "light" ? "#000" : "#fff"
+    color: theme === "light" ? "#000" : "#fff",
   };
 
-  const footerStyle = {
+  const footerStyle: React.CSSProperties = {
     textAlign: "center",
     padding: "10px",
     backgroundColor: theme === "light" ? "#f0f0f0" : "#333",
     color: theme === "light" ? "#000" : "#fff",
-    marginTop: "20px"
+    marginTop: "20px",
   };
 
-  const menuButtonStyle = {
+  const menuButtonStyle: React.CSSProperties = {
     background: "none",
     border: "none",
     fontSize: "20px",
     cursor: "pointer",
-    color: theme === "light" ? "#000" : "#fff"
+    color: theme === "light" ? "#000" : "#fff",
   };
-
 
   return (
     <html lang="en">
-      <body style={{ margin: "0", backgroundColor: theme === "light" ? "#a79f9fff" : "#474855ff", color: theme === "light" ? "#474855ff" : "#a79f9fff", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <body
+        style={{
+          margin: "0",
+          backgroundColor: theme === "light" ? "#a79f9fff" : "#474855ff",
+          color: theme === "light" ? "#474855ff" : "#a79f9fff",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         {/* HEADER */}
         <header style={headerStyle}>
           <h4>LTU Moodle Prototype</h4>
           <span style={{ fontWeight: "bold" }}>Student No: 123456</span>
-
-          
         </header>
 
-        <nav style={{ padding: '10px', background: '#19532cff', color: '#90d8a0ff', display: 'flex', alignItems: "center",justifyContent: "space-between" }}>
-          <ul style={{ display: 'flex', gap: '20px', listStyle: 'none' }}>
-            <li><Link href="/">Tabs</Link></li>
-            <li><Link href="/pre-lab-question">Pre-Lab-Question</Link></li>
-            <li><Link href="/escape-room">Escape Room</Link></li>
-            <li><Link href="/coding-races">Coding Races</Link></li>
-            <li><Link href="/court-room">Court Room</Link></li>
-          </ul>
-          <div style={{
+        <nav
+          style={{
+            padding: "10px",
+            background: "#19532cff",
+            color: "#90d8a0ff",
             display: "flex",
             alignItems: "center",
-            gap: '20px'
-          }}>
-            <li style={{ listStyle: 'none' }} ><Link href="/about">About</Link></li>
+            justifyContent: "space-between",
+          }}
+        >
+          <ul style={{ display: "flex", gap: "20px", listStyle: "none" }}>
+            <li>
+              <Link href="/">Tabs</Link>
+            </li>
+            <li>
+              <Link href="/pre-lab-question">Pre-Lab-Question</Link>
+            </li>
+            <li>
+              <Link href="/escape-room">Escape Room</Link>
+            </li>
+            <li>
+              <Link href="/coding-races">Coding Races</Link>
+            </li>
+            <li>
+              <Link href="/court-room">Court Room</Link>
+            </li>
+          </ul>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "20px",
+            }}
+          >
+            <li style={{ listStyle: "none" }}>
+              <Link href="/about">About</Link>
+            </li>
             <button style={menuButtonStyle}>☰</button>
           </div>
         </nav>
 
-
         {/* MAIN CONTENT */}
         <main style={{ flex: "1" }}>
-          <button style={{ ...menuButtonStyle, float: "right" }} onClick={toggleTheme}>
-              {theme === "light" ? "🌙" : "☀️"}
-            </button>
-          {children}</main>
+          <button
+            style={{ ...menuButtonStyle, float: "right" }}
+            onClick={toggleTheme}
+          >
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
+          {children}
+        </main>
 
         {/* FOOTER */}
         <footer style={footerStyle}>
