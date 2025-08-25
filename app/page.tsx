@@ -2,29 +2,34 @@
 import { useState, useEffect } from "react";
 
 export default function TabsPage() {
-  const [tabs, setTabs] = useState<string[]>(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("tabs");
-      if (stored) return JSON.parse(stored);
-    }
-    return ["Step 1", "Step 2"];
-  });
-
-  const [contents, setContents] = useState<string[]>(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("contents");
-      if (stored) return JSON.parse(stored);
-    }
-    return ["Install VSCode", "Install Chrome"];
-  });
-
+  const [tabs, setTabs] = useState<string[]>(["Step 1", "Step 2"]);
+  const [contents, setContents] = useState<string[]>([
+    "Install VSCode",
+    "Install Chrome",
+  ]);
   const [outputHtml, setOutputHtml] = useState<string>("");
 
-  // Save to localStorage whenever tabs or contents change
+  const [mounted, setMounted] = useState(false); // 👈 fix hydration mismatch
+
+  // Load from localStorage after mount
   useEffect(() => {
-    localStorage.setItem("tabs", JSON.stringify(tabs));
-    localStorage.setItem("contents", JSON.stringify(contents));
-  }, [tabs, contents]);
+    const storedTabs = localStorage.getItem("tabs");
+    const storedContents = localStorage.getItem("contents");
+
+    if (storedTabs && storedContents) {
+      setTabs(JSON.parse(storedTabs));
+      setContents(JSON.parse(storedContents));
+    }
+    setMounted(true);
+  }, []);
+
+  // Save to localStorage whenever tabs/contents change
+  useEffect(() => {
+    if (mounted) {
+      localStorage.setItem("tabs", JSON.stringify(tabs));
+      localStorage.setItem("contents", JSON.stringify(contents));
+    }
+  }, [tabs, contents, mounted]);
 
   const containerStyle: React.CSSProperties = {
     padding: "20px",
@@ -107,6 +112,9 @@ function showTab(index) {
     `;
     setOutputHtml(finalHtml);
   };
+
+  // ✅ Prevent hydration mismatch: render nothing until mounted
+  if (!mounted) return null;
 
   return (
     <div style={containerStyle}>
