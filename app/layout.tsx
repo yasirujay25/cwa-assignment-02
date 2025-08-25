@@ -7,6 +7,7 @@ import type { PropsWithChildren } from "react";
 
 export default function RootLayout({ children }: PropsWithChildren<{}>) {
   const [theme, setTheme] = useState("light");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -18,6 +19,8 @@ export default function RootLayout({ children }: PropsWithChildren<{}>) {
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
   };
+
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   const headerStyle: React.CSSProperties = {
     display: "flex",
@@ -34,14 +37,6 @@ export default function RootLayout({ children }: PropsWithChildren<{}>) {
     backgroundColor: theme === "light" ? "#f0f0f0" : "#333",
     color: theme === "light" ? "#000" : "#fff",
     marginTop: "20px",
-  };
-
-  const menuButtonStyle: React.CSSProperties = {
-    background: "none",
-    border: "none",
-    fontSize: "20px",
-    cursor: "pointer",
-    color: theme === "light" ? "#000" : "#fff",
   };
 
   return (
@@ -62,57 +57,110 @@ export default function RootLayout({ children }: PropsWithChildren<{}>) {
           <span style={{ fontWeight: "bold" }}>Student No: 123456</span>
         </header>
 
+        {/* NAVBAR */}
         <nav
           style={{
             padding: "10px",
             background: "#19532cff",
             color: "#90d8a0ff",
             display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            flexDirection: "column",
           }}
         >
-          <ul style={{ display: "flex", gap: "20px", listStyle: "none" }}>
-            <li>
-              <Link href="/">Tabs</Link>
-            </li>
-            <li>
-              <Link href="/pre-lab-question">Pre-Lab-Question</Link>
-            </li>
-            <li>
-              <Link href="/escape-room">Escape Room</Link>
-            </li>
-            <li>
-              <Link href="/coding-races">Coding Races</Link>
-            </li>
-            <li>
-              <Link href="/court-room">Court Room</Link>
-            </li>
-          </ul>
           <div
             style={{
               display: "flex",
+              justifyContent: "space-between",
               alignItems: "center",
-              gap: "20px",
             }}
           >
-            <li style={{ listStyle: "none" }}>
-              <Link href="/about">About</Link>
-            </li>
-            <button style={menuButtonStyle}>☰</button>
+            <ul
+              style={{
+                display: "flex",
+                gap: "20px",
+                listStyle: "none",
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              <li>
+                <Link href="/">Tabs</Link>
+              </li>
+              <li>
+                <Link href="/pre-lab-question">Pre-Lab-Question</Link>
+              </li>
+              <li>
+                <Link href="/escape-room">Escape Room</Link>
+              </li>
+              <li>
+                <Link href="/coding-races">Coding Races</Link>
+              </li>
+              <li>
+                <Link href="/court-room">Court Room</Link>
+              </li>
+              <li>
+                <Link href="/about">About</Link>
+              </li>
+            </ul>
+
+            {/* Hamburger button */}
+            <button
+              onClick={toggleMenu}
+              style={{
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: theme === "light" ? "#000" : "#fff",
+                transition: "transform 0.3s ease",
+                transform: menuOpen ? "rotate(90deg)" : "rotate(0deg)", // animation
+              }}
+              aria-label="Toggle menu"
+            >
+              ☰
+            </button>
+          </div>
+
+          {/* Expandable mobile menu */}
+          <div
+            style={{
+              maxHeight: menuOpen ? "500px" : "0",
+              overflow: "hidden",
+              transition: "max-height 0.4s ease",
+            }}
+          >
+            <ul
+              style={{
+                listStyle: "none",
+                padding: "10px 0",
+                margin: 0,
+                display: "flex",
+                flexDirection: "column",
+                gap: "15px",
+              }}
+            >
+              <li>
+                <button
+                  onClick={toggleTheme}
+                  style={{
+                    background: "none",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    padding: "8px",
+                    cursor: "pointer",
+                    color: theme === "light" ? "#000" : "#fff",
+                    backgroundColor: theme === "light" ? "#fff" : "#222",
+                  }}
+                >
+                  {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+                </button>
+              </li>
+            </ul>
           </div>
         </nav>
 
         {/* MAIN CONTENT */}
-        <main style={{ flex: "1" }}>
-          <button
-            style={{ ...menuButtonStyle, float: "right" }}
-            onClick={toggleTheme}
-          >
-            {theme === "light" ? "🌙" : "☀️"}
-          </button>
-          {children}
-        </main>
+        <main style={{ flex: "1" }}>{children}</main>
 
         {/* FOOTER */}
         <footer style={footerStyle}>
