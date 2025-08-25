@@ -1,13 +1,30 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function TabsPage() {
-  const [tabs, setTabs] = useState(["Step 1", "Step 2"]);
-  const [contents, setContents] = useState([
-    "Install VSCode",
-    "Install Chrome",
-  ]);
-  const [outputHtml, setOutputHtml] = useState("");
+  const [tabs, setTabs] = useState<string[]>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("tabs");
+      if (stored) return JSON.parse(stored);
+    }
+    return ["Step 1", "Step 2"];
+  });
+
+  const [contents, setContents] = useState<string[]>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("contents");
+      if (stored) return JSON.parse(stored);
+    }
+    return ["Install VSCode", "Install Chrome"];
+  });
+
+  const [outputHtml, setOutputHtml] = useState<string>("");
+
+  // Save to localStorage whenever tabs or contents change
+  useEffect(() => {
+    localStorage.setItem("tabs", JSON.stringify(tabs));
+    localStorage.setItem("contents", JSON.stringify(contents));
+  }, [tabs, contents]);
 
   const containerStyle: React.CSSProperties = {
     padding: "20px",
@@ -27,10 +44,25 @@ export default function TabsPage() {
     setContents([...contents, "New Step Content"]);
   };
 
+  const deleteTab = (index: number) => {
+    const newTabs = [...tabs];
+    const newContents = [...contents];
+    newTabs.splice(index, 1);
+    newContents.splice(index, 1);
+    setTabs(newTabs);
+    setContents(newContents);
+  };
+
   const updateContent = (index: number, value: string) => {
     const newContents = [...contents];
     newContents[index] = value;
     setContents(newContents);
+  };
+
+  const updateTab = (index: number, value: string) => {
+    const newTabs = [...tabs];
+    newTabs[index] = value;
+    setTabs(newTabs);
   };
 
   const generateHtml = () => {
@@ -87,11 +119,7 @@ function showTab(index) {
               type="text"
               value={tab}
               style={inputStyle}
-              onChange={(e) => {
-                const newTabs = [...tabs];
-                newTabs[index] = e.target.value;
-                setTabs(newTabs);
-              }}
+              onChange={(e) => updateTab(index, e.target.value)}
             />
             <input
               type="text"
@@ -99,6 +127,12 @@ function showTab(index) {
               style={inputStyle}
               onChange={(e) => updateContent(index, e.target.value)}
             />
+            <button
+              style={{ ...buttonStyle, background: "red", color: "white" }}
+              onClick={() => deleteTab(index)}
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>
