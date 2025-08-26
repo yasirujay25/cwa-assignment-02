@@ -24,8 +24,8 @@ export default function AboutPage() {
   return (
     <div style={containerStyle}>
       <h1 style={titleStyle}>About Me</h1>
-      <p>Name: Your Name</p>
-      <p>Student Number: 123456</p>
+      <p>Name: Yasiru Eumal Jayasinghe</p>
+      <p>Student Number: 21764827</p>
       <p>Video demo: How to use this website</p>
       <video style={videoStyle} controls>
         <source src="/use.mp4" type="video/mp4" />

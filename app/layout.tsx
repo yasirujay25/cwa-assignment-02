@@ -54,7 +54,7 @@ export default function RootLayout({ children }: PropsWithChildren<{}>) {
         {/* HEADER */}
         <header style={headerStyle}>
           <h4>LTU Moodle Prototype</h4>
-          <span style={{ fontWeight: "bold" }}>Student No: 123456</span>
+          <span style={{ fontWeight: "bold" }}>Student No: 21764827</span>
         </header>
 
         {/* NAVBAR */}
@@ -164,7 +164,8 @@ export default function RootLayout({ children }: PropsWithChildren<{}>) {
 
         {/* FOOTER */}
         <footer style={footerStyle}>
-          © Your Name | Student No: 123456 | {new Date().toLocaleDateString()}
+          © Yasiru Eumal Jayasinghe | Student No: 21764827 |{" "}
+          {new Date().toLocaleDateString()}
         </footer>
       </body>
     </html>
