@@ -1,258 +1,210 @@
-\# LTU Moodle Prototype
+# LTU Moodle Prototype
 
-
-
-A \*\*Next.js\*\* application used to create a Moodle-style prototype with navigation, tabs, and coding exercises.
-
-
+A **Next.js** application for building a Moodle-style prototype with navigation, tabs, and coding exercises.
 
 ---
 
+## Table of Contents
 
-
-\## Table of Contents
-
-
-
-\* \[Overview](#overview)
-
-\* \[Tech Stack](#tech-stack)
-
-\* \[Prerequisites](#prerequisites)
-
-\* \[Environment Setup](#environment-setup)
-
-\* \[Create the Project](#create-the-project)
-
-\* \[Git Setup](#git-setup)
-
-\* \[Run the Development Server](#run-the-development-server)
-
-\* \[Project Structure](#project-structure)
-
-\* \[Available Scripts](#available-scripts)
-
-\* \[Troubleshooting](#troubleshooting)
-
-\* \[Contributing](#contributing)
-
-\* \[License](#license)
-
-
+- [Overview](#overview)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Environment Setup](#environment-setup)
+- [Create the Project](#create-the-project)
+- [Git Setup](#git-setup)
+- [Run the Development Server](#run-the-development-server)
+- [Project Structure](#project-structure)
+- [Available Scripts](#available-scripts)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
+## Overview
 
+This project is a **Next.js** app used to build a Moodle-like prototype. It includes:
 
-\## Overview
+- **Course-style navigation**
+- **Tabs** for sections/modules
+- **Coding exercise components/placeholders**
 
-
-
-This project is a \*\*Next.js\*\* application used to build a Moodle prototype, including:
-
-
-
-\* Course-style \*\*navigation\*\*
-
-\* \*\*Tabs\*\* for sections/modules
-
-\* \*\*Coding exercises\*\* placeholders/components
-
-
-
-Use this as a foundation to iterate on LMS features and UI flows.
-
-
+The goal is to serve as a foundation for experimenting with LMS features and UI flows.
 
 ---
 
+## Tech Stack
 
-
-\## Tech Stack
-
-
-
-\* \*\*Framework:\*\* Next.js (App Router, Turbopack)
-
-\* \*\*Language:\*\* JavaScript (no TypeScript)
-
-\* \*\*Linting:\*\* ESLint
-
-\* \*\*Styling:\*\* Your choice (Tailwind not enabled by default)
-
-
+- **Framework:** Next.js (App Router, Turbopack)
+- **Language:** JavaScript (no TypeScript)
+- **Linting:** ESLint
+- **Styling:** Custom choice (Tailwind not enabled by default)
 
 ---
 
+## Prerequisites
 
+Make sure the following are installed on your Mac:
 
-\## Prerequisites
+- **macOS** (Ventura / Sonoma recommended)
+- **Node.js (LTS)** and **npm**
+- **Git** (with SSH setup if using GitHub over SSH)
 
+Check versions in your terminal:
 
-
-\* \*\*Operating System:\*\* Windows 10/11
-
-\* \*\*Node.js (LTS)\*\* and \*\*npm\*\*
-
-\* \*\*Git\*\* (with SSH access to GitHub if using SSH URLs)
-
-
-
-Verify your environment (example output shown):
-
-
-
-```powershell
-
-\# Open in Windows Command Prompt
-
-Microsoft Windows \[Version 10.0.26100.4946]
-
-(c) Microsoft Corporation. All rights reserved.
-
-
-
-\# Check versions
-
-C:\\Users\\User> node -v
-
+```bash
+# Check Node.js version
+node -v
 v22.18.0
 
-
-
-C:\\Users\\User> npm -v
-
+# Check npm version
+npm -v
 10.9.3
 
+# Check Git version
+git --version
+git version 2.46.0
 ```
-
-
 
 ---
 
+## Environment Setup
 
+1. **Install Node.js & npm**  
+   Download the LTS version from [nodejs.org](https://nodejs.org)  
+   or use Homebrew:
 
-\## Environment Setup
+   ```bash
+   brew install node
+   ```
 
+2. **Install Git (if not already installed)**
 
+   ```bash
+   brew install git
+   ```
 
-Follow these steps to set up the project environment:
+   Configure your Git identity (if first time):
 
-
-
-1\. \*\*Install Node.js \& npm\*\*
-
-
-
-&nbsp;  \* Download and install Node.js (LTS version) from \[https://nodejs.org](https://nodejs.org)
-
-
-
-2\. \*\*(Optional) Install Git\*\*
-
-
-
-&nbsp;  \* Download Git for Windows from \[https://git-scm.com/download/win](https://git-scm.com/download/win)
-
-&nbsp;  \* During setup, enable \*\*Git Bash\*\* and \*\*OpenSSH\*\* components.
-
-
+   ```bash
+   git config --global user.name "Your Name"
+   git config --global user.email "your@email.com"
+   ```
 
 ---
 
+## Create the Project
 
+Use **create-next-app**:
 
-\## Create the Project
-
-
-
-Create a new Next.js app using \*\*create-next-app\*\*:
-
-
-
-```powershell
-
-C:\\Users\\User> npx create-next-app@latest ltu-moodle-prototype
-
-Need to install the following packages:
-
-create-next-app@15.5.0
-
-Ok to proceed?  y
-
-
-
-√ Would you like to use TypeScript? ... No
-
-√ Which linter would you like to use? » ESLint
-
-√ Would you like to use Tailwind CSS? ... No
-
-√ Would you like your code inside a `src/` directory? ... No
-
-√ Would you like to use App Router? (recommended) ... Yes
-
-√ Would you like to use Turbopack? (recommended) ... Yes
-
-√ Would you like to customize the import alias (`@/\*` by default)? ... No
-
-
-
-Creating a new Next.js app in C:\\\\Users\\\\User\\\\ltu-moodle-prototype.
-
-
-
-Using npm.
-
-
-
-Initializing project with template: app
-
-
-
-Installing dependencies:
-
-\- react
-
-\- react-dom
-
-\- next
-
-
-
-Installing devDependencies:
-
-\- eslint
-
-\- eslint-config-next
-
-\- @eslint/eslintrc
-
-
-
-added 300 packages, and audited 301 packages in 3m
-
-
-
-131 packages are looking for funding
-
-run `npm fund` for details
-
-
-
-found 0 vulnerabilities
-
-Initialized a git repository.
-
-
-
-Success! Created ltu-moodle-prototype at C:\\\\Users\\\\User\\\\ltu-moodle-prototype
-
+```bash
+npx create-next-app@latest ltu-moodle-prototype
 ```
 
+Answer prompts:
 
+- TypeScript → **No**
+- Linter → **ESLint**
+- Tailwind CSS → **No**
+- `src/` directory → **No**
+- App Router → **Yes**
+- Turbopack → **Yes**
+- Import alias customization → **No**
 
-> \*\*Note:\*\* If you choose Tailwind CSS later, follow the official Tailwi
+Sample output:
 
+```bash
+✔ Would you like to use TypeScript? › No
+✔ Which linter would you like to use? › ESLint
+✔ Would you like to use Tailwind CSS? › No
+✔ Would you like your code inside a `src/` directory? › No
+✔ Would you like to use App Router? (recommended) › Yes
+✔ Would you like to use Turbopack? (recommended) › Yes
+✔ Would you like to customize the import alias? › No
 
+Success! Created ltu-moodle-prototype
+```
 
+---
+
+## Git Setup
+
+Initialize a repo (if not already done):
+
+```bash
+cd ltu-moodle-prototype
+git init
+git add .
+git commit -m "Initial commit"
+```
+
+Add GitHub remote (HTTPS example):
+
+```bash
+git remote add origin https://github.com/your-username/ltu-moodle-prototype.git
+git push -u origin main
+```
+
+---
+
+## Run the Development Server
+
+Start the dev server:
+
+```bash
+npm run dev
+```
+
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## Project Structure
+
+```
+ltu-moodle-prototype/
+├── app/             # App Router pages
+├── public/          # Static assets
+├── .eslintrc.json   # ESLint config
+├── package.json     # Dependencies & scripts
+└── README.md
+```
+
+---
+
+## Available Scripts
+
+- `npm run dev` – Start development server
+- `npm run build` – Build production bundle
+- `npm start` – Start production server
+- `npm run lint` – Run ESLint checks
+
+---
+
+## Troubleshooting
+
+- **Port already in use:** Kill existing process on port 3000
+
+  ```bash
+  lsof -i :3000
+  kill -9 <PID>
+  ```
+
+- **Dependencies out of date:**
+  ```bash
+  npm install
+  ```
+
+---
+
+## Contributing
+
+Pull requests are welcome. Please fork the repo and use a feature branch.
+
+---
+
+## License
+
+This project is licensed under the **MIT License**.
+
+---
