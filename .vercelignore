@@ -1,0 +1,4 @@
+azure-lambda/
+tests/
+*.md
+*.pdf
