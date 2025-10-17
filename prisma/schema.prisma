@@ -14,8 +14,8 @@ model Session {
   bgUrl        String
   minutesInput Int
   timeLeft     Int
-  codes        Json
-  solved       Json
+  codes        String   @default("{}")  // store JSON as string
+  solved       String   @default("{}")  // store JSON as string
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
