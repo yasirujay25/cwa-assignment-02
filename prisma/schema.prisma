@@ -3,9 +3,11 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")  // prisma+postgres URL
+  directUrl = env("DIRECT_URL")    // plain postgres URL
 }
+
 
 model Session {
   id           Int      @id @default(autoincrement())
@@ -14,8 +16,8 @@ model Session {
   bgUrl        String
   minutesInput Int
   timeLeft     Int
-  codes        String   @default("{}")  // store JSON as string
-  solved       String   @default("{}")  // store JSON as string
+  codes        Json     @default("{}")   // ⬅️ JSON is supported on Postgres
+  solved       Json     @default("{}")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }

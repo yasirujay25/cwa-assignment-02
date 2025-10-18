@@ -1,34 +1,33 @@
 import { NextResponse } from "next/server";
 import prisma from "../../../lib/prisma";
 
-// ✅ GET /api/progress?userId=abc
+// GET /api/progress?userId=abc
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
+
     if (!userId) {
-      return NextResponse.json(
-        { error: "userId is required" },
-        { status: 400 }
-      );
+      // Optional friendly fallback: show latest sessions when no userId
+      const latest = await prisma.session.findMany({
+        orderBy: { updatedAt: "desc" },
+        take: 10,
+        select: { userId: true, stageIndex: true, updatedAt: true },
+      });
+      return NextResponse.json({
+        note: "Pass ?userId=<id> to fetch a specific session. Showing the latest 10.",
+        latest,
+      });
     }
 
     const session = await prisma.session.findUnique({ where: { userId } });
-
-    if (!session) return NextResponse.json(null);
-
-    // Parse JSON strings back into objects before returning
-    return NextResponse.json({
-      ...session,
-      codes: JSON.parse(session.codes),
-      solved: JSON.parse(session.solved),
-    });
+    return NextResponse.json(session ?? null);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
-// ✅ POST /api/progress  (upsert by userId)
+// POST /api/progress (upsert by userId)
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -44,22 +43,15 @@ export async function POST(req: Request) {
 
     const saved = await prisma.session.upsert({
       where: { userId },
-      update: {
-        stageIndex,
-        bgUrl,
-        minutesInput,
-        timeLeft,
-        codes: JSON.stringify(codes ?? {}),
-        solved: JSON.stringify(solved ?? {}),
-      },
+      update: { stageIndex, bgUrl, minutesInput, timeLeft, codes, solved },
       create: {
         userId,
         stageIndex,
         bgUrl,
         minutesInput,
         timeLeft,
-        codes: JSON.stringify(codes ?? {}),
-        solved: JSON.stringify(solved ?? {}),
+        codes,
+        solved,
       },
     });
 
@@ -69,7 +61,7 @@ export async function POST(req: Request) {
   }
 }
 
-// ✅ PUT /api/progress  (partial update by userId)
+// PUT /api/progress (partial update by userId)
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
@@ -82,10 +74,6 @@ export async function PUT(req: Request) {
       );
     }
 
-    // Ensure codes/solved are stored as strings
-    if (patch.codes) patch.codes = JSON.stringify(patch.codes);
-    if (patch.solved) patch.solved = JSON.stringify(patch.solved);
-
     const updated = await prisma.session.update({
       where: { userId },
       data: patch,
@@ -97,19 +85,17 @@ export async function PUT(req: Request) {
   }
 }
 
-// ✅ DELETE /api/progress  (delete by userId)
+// DELETE /api/progress (delete by userId)
 export async function DELETE(req: Request) {
   try {
     const body = await req.json();
     const { userId } = body || {};
-
     if (!userId) {
       return NextResponse.json(
         { error: "userId is required" },
         { status: 400 }
       );
     }
-
     await prisma.session.delete({ where: { userId } });
     return NextResponse.json({ message: "Deleted" });
   } catch (err: any) {
