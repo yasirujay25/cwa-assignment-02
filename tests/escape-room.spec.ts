@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const APP = "http://localhost:3000/escape-room";
+const APP = "https://cwa-assignment-02.vercel.app/escape-room";
 
 test.describe("Escape Room App", () => {
   // 1) Timer / UI smoke test
